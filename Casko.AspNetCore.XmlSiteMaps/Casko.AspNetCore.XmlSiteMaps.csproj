@@ -19,7 +19,7 @@
         <RepositoryBranch>main</RepositoryBranch>
     </PropertyGroup>
 
-    <ItemGroup >
+    <ItemGroup>
         <None Include="Package\README.md" Pack="true" PackagePath="\"/>
         <None Include="Package\icon.png" Pack="true" PackagePath="\"/>
     </ItemGroup>
