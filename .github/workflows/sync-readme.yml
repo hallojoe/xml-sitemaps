@@ -3,8 +3,7 @@ name: Sync README
 on:
   push:
     branches:
-      - main
-
+      - develop
     paths:
       - 'Casko.AspNetCore.XmlSiteMaps/Package/**'  
 
@@ -26,5 +25,11 @@ jobs:
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
           git add README.md
-          git commit -m "Update README.md from Project/Package.README.md"
-          git push
+
+          # Check if there are any changes to commit
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update README.md from Project/Package/README.md"
+            git push
+          fi
