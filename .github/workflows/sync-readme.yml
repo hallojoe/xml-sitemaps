@@ -17,6 +17,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Fetch all branches
+        run: git fetch --all
+
+      - name: Rebase develop onto main
+        run: |
+          git checkout develop
+          git rebase origin/main
+
       - name: Copy README to Root
         run: cp ${{ env.README_PATH }} README.md
 
@@ -30,6 +38,9 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Update README.md from Project/Package/README.md"
-            git push
+            git commit -m "Update README.md from ${{ env.README_PATH }}"
           fi
+
+      - name: Push changes
+        run: |
+          git push --force-with-lease origin develop
