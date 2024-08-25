@@ -24,7 +24,7 @@ In `Startup.cs` or `Program.cs`,  use XML sitemaps on `IApplicationBuilder`:
 app.UseXmlSiteMaps(addRewrites: true); // true is default
 ```
 
-If ordering creates problems for rewrites then set `useRewrites: false` and then call where it fit in:
+If ordering creates problems for rewrites then set `useRewrites: false` and then call where appropriate:
 
 ```
 app.UseXmlSiteMapsRewrites();
@@ -68,7 +68,7 @@ public class XmlSiteMapService : IXmlSiteMap<XmlSiteMap>
 
 #### Create a XML sitemap index:
 
-When multiple XML sitemaps exist you will need at least one XML sitemap index.
+When multiple XML sitemaps exist you will need at least one XML sitemap index. This show how to create an XML sitemap index:
 
 ```
 public class XmlSiteMapIndexService : IXmlSiteMap<XmlSiteMapIndex>
