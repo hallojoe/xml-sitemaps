@@ -8,7 +8,7 @@ Follow these instructions to get started.
 
 ### Install
 
-`dotnet add Casko.AspNetCore.XmlSiteMaps`
+`dotnet add package Casko.AspNetCore.XmlSiteMaps --version 1.0.0`
 
 ### Configure
 

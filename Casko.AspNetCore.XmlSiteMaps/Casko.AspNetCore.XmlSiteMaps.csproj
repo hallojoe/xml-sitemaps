@@ -13,18 +13,17 @@
         <RepositoryUrl>https://github.com/hallojoe/xml-sitemaps</RepositoryUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <PackageIcon>Package/icon.png</PackageIcon>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryType>git</RepositoryType>
         <RepositoryBranch>main</RepositoryBranch>
     </PropertyGroup>
 
-    <ItemGroup>
-        <None Update="Package/README.md">
-            <Pack>true</Pack>
-            <PackagePath>Package/README.md</PackagePath>
-        </None>
+    <ItemGroup >
+        <None Include="Package\README.md" Pack="true" PackagePath="\"/>
+        <None Include="Package\icon.png" Pack="true" PackagePath="\"/>
     </ItemGroup>
-
+    
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="[8.0.0,)"/>
