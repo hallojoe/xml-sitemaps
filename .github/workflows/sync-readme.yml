@@ -1,0 +1,30 @@
+name: Sync README
+
+on:
+  push:
+    branches:
+      - main
+
+    paths:
+      - 'Casko.AspNetCore.XmlSiteMaps/Package/**'  
+
+jobs:    
+  sync-readme:
+    runs-on: ubuntu-latest
+    env:
+        README_PATH: Casko.AspNetCore.XmlSiteMaps/Package/README.md
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Copy README to Root
+        run: cp ${{ env.README_PATH }} README.md
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add README.md
+          git commit -m "Update README.md from Project/Package.README.md"
+          git push
