@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Casko.AspNetCore.XmlSiteMaps\Casko.AspNetCore.XmlSiteMaps.csproj" />
+      <PackageReference Include="Casko.AspNetCore.XmlSiteMaps" Version="1.0.0" />
     </ItemGroup>
 
 </Project>
