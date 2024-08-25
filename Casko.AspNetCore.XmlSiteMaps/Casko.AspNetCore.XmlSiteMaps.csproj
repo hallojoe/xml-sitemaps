@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PackageId>Casko.AspNetCore.XmlSiteMaps</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Casper Korsgaard</Authors>
+        <Company>Casko</Company>
+        <PackageDescription>A package for handling XML sitemaps in ASP.NET Core applications.</PackageDescription>
+        <PackageTags>sitemap;sitemaps;xml;xmlsitemap;xmlsitemaps;aspnetcore</PackageTags>
+        <RepositoryUrl>https://github.com/hallojoe/xml-sitemaps</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <PackageIcon>Package/icon.png</PackageIcon>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryBranch>main</RepositoryBranch>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Update="Package/README.md">
+            <Pack>true</Pack>
+            <PackagePath>Package/README.md</PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="[8.0.0,)"/>
+    </ItemGroup>
+    
+</Project>
