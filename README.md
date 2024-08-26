@@ -135,3 +135,4 @@ public class XmlSiteMapCollectionService() : IXmlSiteMapCollection<XmlSiteMap>
 ## TODO
 
  - Offer automatic XML sitemap index creation when creating `IXmlSitemapCollection<XmlSiteMap>`
+ - MAke XHtmlLink not required
