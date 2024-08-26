@@ -13,7 +13,7 @@ public sealed class XHtmlLink
     /// Typically, this is set to "alternate" to indicate an alternative version of the content, such as a different language or regional version.
     /// </summary>
     [XmlAttribute(AttributeName = Constants.Rel, Namespace = Constants.Empty)]
-    public required string Rel { get; set; } = Constants.RelAlternate;
+    public string Rel { get; set; } = Constants.RelAlternate;
 
     /// <summary>
     /// Gets or sets the language or region code of the linked content.
