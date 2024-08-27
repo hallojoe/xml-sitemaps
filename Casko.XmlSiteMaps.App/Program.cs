@@ -2,7 +2,6 @@ using Casko.AspNetCore.XmlSiteMaps.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 
 // Add Xml sitemaps
