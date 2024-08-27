@@ -4,13 +4,13 @@ using Casko.AspNetCore.XmlSiteMaps.Models;
 
 namespace Casko.XmlSiteMaps.App.Features.SiteMap;
 
-public class XmlSiteMapIndexService(IHttpContextAccessor httpContextAccessor) : IXmlSiteMap<XmlSiteMapIndex>
+public class XmlSiteMapIndexService() : IXmlSiteMap<XmlSiteMapIndex>
 {
     public string FileName => "sitemap-index.xml";
 
-    public XmlSiteMapIndex GetXmlSiteMap()
+    public XmlSiteMapIndex GetXmlSiteMap(HttpContext httpContext)
     {
-        var baseUrl = httpContextAccessor.HttpContext.GetBaseUrl();
+        var baseUrl = httpContext.GetBaseUrl();
         
         var xmlSiteMap = new XmlSiteMapIndex
         {
