@@ -128,11 +128,23 @@ public class XmlSiteMapCollectionService() : IXmlSiteMapCollection<XmlSiteMap>
 
 ## Changelog
 
+### 2.0.0
+
+- Add HttpContext to signature of `ISiteMap.GetXmlSiteMap` 
+- Pass HttpContext when building endpoints
+
+### 1.0.1
+
+- Remove required operator from Rel property of XHtmlLink
+
 ### 1.0.0
 
  - Initialize project
 
+
+
+
 ## TODO
 
  - Offer automatic XML sitemap index creation when creating `IXmlSitemapCollection<XmlSiteMap>`
- - MAke XHtmlLink not required
+ - Make XHtmlLink not required
