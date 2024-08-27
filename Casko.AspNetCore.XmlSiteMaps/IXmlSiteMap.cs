@@ -5,5 +5,5 @@ namespace Casko.AspNetCore.XmlSiteMaps;
 public interface IXmlSiteMap<out T> where T : IXmlSiteMapBase
 {
     string FileName { get; }
-    T GetXmlSiteMap();
+    T GetXmlSiteMap(HttpContext httpContext);
 }

@@ -3,6 +3,7 @@ using Casko.AspNetCore.XmlSiteMaps.Http;
 using Casko.AspNetCore.XmlSiteMaps.Models;
 using Casko.AspNetCore.XmlSiteMaps.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -36,35 +37,35 @@ public static class ConfigurationExtensions
     private static void CreateEndPoints<T>(this IApplicationBuilder applicationBuilder,
         IXmlSiteMapRouteService xmlSiteMapRouteService) where T : IXmlSiteMapBase
     {
-        var xmlSiteMapModelServices = 
+        var xmlSiteMapServices = 
             applicationBuilder.ApplicationServices.GetServices<IXmlSiteMap<T>>();
         
         applicationBuilder.UseEndpoints(endPoints =>
         {
-            foreach (var xmlSiteMapModelService in xmlSiteMapModelServices)
+            foreach (var xmlSiteMapService in xmlSiteMapServices)
             {
-                var route = CreateEndPointRoute(xmlSiteMapModelService.FileName);
+                var route = CreateEndPointRoute(xmlSiteMapService.FileName);
 
-                xmlSiteMapRouteService.RegisterRoute(route, xmlSiteMapModelService.FileName);
+                xmlSiteMapRouteService.RegisterRoute(route, xmlSiteMapService.FileName);
 
-                endPoints.MapGet(route, () => new XmlResult<T>(xmlSiteMapModelService.GetXmlSiteMap()));
+                endPoints.MapGet(route, (HttpContext httpContext) => new XmlResult<T>(xmlSiteMapService.GetXmlSiteMap(httpContext)));
 
             }
 
-            var multilingualXmlSiteMapModelServices =
+            var xmlSiteMapCollectionServices =
                 applicationBuilder.ApplicationServices.GetServices<IXmlSiteMapCollection<T>>();
 
-            foreach (var multilingualXmlSiteMapModelService in multilingualXmlSiteMapModelServices)
+            foreach (var xmlSiteMapCollectionService in xmlSiteMapCollectionServices)
             {
-                foreach (var cultureKey in multilingualXmlSiteMapModelService.Routes.Keys)
+                foreach (var cultureKey in xmlSiteMapCollectionService.Routes.Keys)
                 {
-                    var fileNameForCulture = multilingualXmlSiteMapModelService.Routes[cultureKey];
+                    var fileNameForCulture = xmlSiteMapCollectionService.Routes[cultureKey];
 
                     var route = CreateEndPointRoute(fileNameForCulture);
 
                     xmlSiteMapRouteService.RegisterRoute(route, fileNameForCulture);
 
-                    endPoints.MapGet(route, () => new XmlResult<T>(multilingualXmlSiteMapModelService.GetXmlSiteMap(cultureKey)));
+                    endPoints.MapGet(route, (HttpContext httpContext) => new XmlResult<T>(xmlSiteMapCollectionService.GetXmlSiteMap(cultureKey, httpContext)));
                 }                
             }
         });
@@ -73,22 +74,22 @@ public static class ConfigurationExtensions
     private static void CreateRewrites<T>(this IApplicationBuilder applicationBuilder,
         IXmlSiteMapRouteService xmlSiteMapRouteService) where T : IXmlSiteMapBase
     {
-        var xmlSiteMapModelServices = applicationBuilder.ApplicationServices.GetServices<IXmlSiteMap<T>>().ToList();
+        var xmlSiteMapServices = applicationBuilder.ApplicationServices.GetServices<IXmlSiteMap<T>>().ToList();
 
-        foreach (var xmlSiteMapModelService in xmlSiteMapModelServices)
+        foreach (var xmlSiteMapService in xmlSiteMapServices)
         {
-            var route = CreateEndPointRoute(xmlSiteMapModelService.FileName);
+            var route = CreateEndPointRoute(xmlSiteMapService.FileName);
 
-            xmlSiteMapRouteService.RegisterRoute(route, xmlSiteMapModelService.FileName);
+            xmlSiteMapRouteService.RegisterRoute(route, xmlSiteMapService.FileName);
         }
 
-        var multilingualXmlSiteMapModelServices =
+        var xmlSiteMapCollectionServices =
             applicationBuilder.ApplicationServices.GetServices<IXmlSiteMapCollection<T>>().ToList();
 
-        foreach (var multilingualXmlSiteMapModelService in multilingualXmlSiteMapModelServices)
-        foreach (var cultureKey in multilingualXmlSiteMapModelService.Routes.Keys)
+        foreach (var xmlSiteMapCollectionService in xmlSiteMapCollectionServices)
+        foreach (var cultureKey in xmlSiteMapCollectionService.Routes.Keys)
         {
-            var fileNameForCulture = multilingualXmlSiteMapModelService.Routes[cultureKey];
+            var fileNameForCulture = xmlSiteMapCollectionService.Routes[cultureKey];
 
             var route = CreateEndPointRoute(fileNameForCulture);
 
@@ -98,19 +99,19 @@ public static class ConfigurationExtensions
 
         var rewriteOptions = new RewriteOptions();
 
-        foreach (var xmlSiteMapModelService in xmlSiteMapModelServices)
+        foreach (var xmlSiteMapService in xmlSiteMapServices)
         {
-            var route = CreateEndPointRoute(xmlSiteMapModelService.FileName);
+            var route = CreateEndPointRoute(xmlSiteMapService.FileName);
 
-            var pattern = $"^{Regex.Escape(xmlSiteMapModelService.FileName)}";
+            var pattern = $"^{Regex.Escape(xmlSiteMapService.FileName)}";
 
             rewriteOptions.AddRewrite(pattern, route, true);
         }
 
-        foreach (var multilingualXmlSiteMapModelService in multilingualXmlSiteMapModelServices)
-        foreach (var cultureKey in multilingualXmlSiteMapModelService.Routes.Keys)
+        foreach (var xmlSiteMapCollectionService in xmlSiteMapCollectionServices)
+        foreach (var cultureKey in xmlSiteMapCollectionService.Routes.Keys)
         {
-            var fileNameForCulture = multilingualXmlSiteMapModelService.Routes[cultureKey];
+            var fileNameForCulture = xmlSiteMapCollectionService.Routes[cultureKey];
 
             var route = CreateEndPointRoute(fileNameForCulture);
 
