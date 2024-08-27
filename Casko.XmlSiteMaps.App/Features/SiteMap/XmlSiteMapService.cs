@@ -5,14 +5,14 @@ using Casko.AspNetCore.XmlSiteMaps.Models;
 
 namespace Casko.XmlSiteMaps.App.Features.SiteMap;
 
-public class XmlSiteMapService(IHttpContextAccessor httpContextAccessor) : IXmlSiteMap<XmlSiteMap>
+public class XmlSiteMapService() : IXmlSiteMap<XmlSiteMap>
 {
     public string FileName => "sitemap-simple.xml";
 
-    public XmlSiteMap GetXmlSiteMap()
+    public XmlSiteMap GetXmlSiteMap(HttpContext httpContext)
     {
 
-        var baseUrl = httpContextAccessor.HttpContext.GetBaseUrl();
+        var baseUrl = httpContext.GetBaseUrl();
 
         var xmlSiteMap = new XmlSiteMap
         {

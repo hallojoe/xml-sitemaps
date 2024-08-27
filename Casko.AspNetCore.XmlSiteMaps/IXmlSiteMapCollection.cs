@@ -1,4 +1,6 @@
-﻿namespace Casko.AspNetCore.XmlSiteMaps;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Casko.AspNetCore.XmlSiteMaps;
 
 public interface IXmlSiteMapCollection<out T> where T : IXmlSiteMapBase
 {
@@ -10,6 +12,6 @@ public interface IXmlSiteMapCollection<out T> where T : IXmlSiteMapBase
     /// </summary>
     IDictionary<string, string> Routes { get; }
     
-    T GetXmlSiteMap(string key);
+    T GetXmlSiteMap(string key, HttpContext httpContext);
     
 }

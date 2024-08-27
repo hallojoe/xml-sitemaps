@@ -5,7 +5,7 @@ using Casko.AspNetCore.XmlSiteMaps.Models;
 
 namespace Casko.XmlSiteMaps.App.Features.SiteMap;
 
-public class XmlSiteMapCollectionService(IHttpContextAccessor httpContextAccessor) : IXmlSiteMapCollection<XmlSiteMap>
+public class XmlSiteMapCollectionService() : IXmlSiteMapCollection<XmlSiteMap>
 {
     public IDictionary<string, string> Routes => new Dictionary<string, string>()
     {
@@ -14,9 +14,9 @@ public class XmlSiteMapCollectionService(IHttpContextAccessor httpContextAccesso
         { "es", "sitemap-collection-es.xml" },
     };
 
-    public XmlSiteMap GetXmlSiteMap(string key)
+    public XmlSiteMap GetXmlSiteMap(string key, HttpContext httpContext)
     {
-        var baseUrl = httpContextAccessor.HttpContext.GetBaseUrl();
+        var baseUrl = httpContext.GetBaseUrl();
 
         var xmlSiteMap = new XmlSiteMap
         {

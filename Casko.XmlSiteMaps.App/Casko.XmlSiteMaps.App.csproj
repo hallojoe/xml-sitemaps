@@ -5,17 +5,13 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
-
-    <ItemGroup>
-        <_ContentIncludedByDefault Remove="wwwroot\js\site.js"/>
-    </ItemGroup>
-
+    
     <ItemGroup>
         <Folder Include="wwwroot\"/>
     </ItemGroup>
-
+    
     <ItemGroup>
-      <PackageReference Include="Casko.AspNetCore.XmlSiteMaps" Version="1.0.0" />
+      <PackageReference Include="Casko.AspNetCore.XmlSiteMaps" Version="2.0.0" />
     </ItemGroup>
 
 </Project>
