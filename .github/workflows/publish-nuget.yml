@@ -2,9 +2,8 @@ name: Publish NuGet Package
 
 on:
   push:
-    branches:
-      - main
-      - 'release/*'
+    tags:
+      - '*'
     paths:
       - 'Casko.AspNetCore.XmlSiteMaps/**'  
 
@@ -20,38 +19,28 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Set Version Variable
+      if: ${{ github.ref_type == 'tag' }}
+      env:
+        TAG: ${{ github.ref_name }}
+      run: echo "VERSION=${TAG#v}" >> $GITHUB_ENV
+  
     - name: Set up .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: '8.x' 
 
     - name: Restore dependencies
-      run: dotnet restore ${{ env.PROJECT_PATH }}
+      run: dotnet restore
 
-    - name: Check if version is already published on NuGet
-      id: version_check
-      run: |
-        CURRENT_VERSION=$(grep -oP '(?<=<Version>)[^<]+' ${{ env.PROJECT_PATH }})
-        echo "Current version: $CURRENT_VERSION"
+    - name: Build
+      run: dotnet build --no-restore --configuration Release /p:Version=$VERSION
 
-        # Check if the package with the current version already exists on NuGet
-        PACKAGE_NAME=$(grep -oP '(?<=<PackageId>)[^<]+' ${{ env.PROJECT_PATH }})
-        VERSION_EXISTS=$(dotnet nuget list source https://api.nuget.org/v3/index.json | grep -c "$PACKAGE_NAME $CURRENT_VERSION")
-        
-        if [ "$VERSION_EXISTS" -ne 0 ]; then
-          echo "Version $CURRENT_VERSION of $PACKAGE_NAME has already been published."
-          echo "version_changed=false" >> $GITHUB_ENV
-        else
-          echo "Version $CURRENT_VERSION is new."
-          echo "version_changed=true" >> $GITHUB_ENV
-        fi
-
-    - name: Publish to NuGet
-      if: env.version_changed == 'true'
+    - name: Pack NuGet package
       run: dotnet pack ${{ env.PROJECT_PATH }} -o ./artifacts --configuration Release
-      env:
-        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      if: success() && github.ref_type == 'tag'      
 
-    - name: Push NuGet Package
-      if: env.version_changed == 'true'
-      run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+    - name: Publish NuGet package
+      run: dotnet nuget push ./artifacts/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+      if: success() && github.ref_type == 'tag'
+      
