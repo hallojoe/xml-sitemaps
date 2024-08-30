@@ -95,8 +95,7 @@ public static class ConfigurationExtensions
 
             xmlSiteMapRouteService.RegisterRoute(route, fileNameForCulture);
         }
-
-
+        
         var rewriteOptions = new RewriteOptions();
 
         foreach (var xmlSiteMapService in xmlSiteMapServices)
