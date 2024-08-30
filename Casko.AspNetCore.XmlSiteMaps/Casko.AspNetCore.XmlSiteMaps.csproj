@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <PackageId>Casko.AspNetCore.XmlSiteMaps</PackageId>
-        <Version>2.0.1</Version>
+        <Version>2.0.2</Version>
         <Authors>Casper Korsgaard</Authors>
         <Company>Casko</Company>
         <PackageDescription>A package for handling XML sitemaps in ASP.NET Core applications.</PackageDescription>
