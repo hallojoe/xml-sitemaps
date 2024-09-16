@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Casko.AspNetCore.XmlSiteMaps", "Casko.AspNetCore.XmlSiteMaps\Casko.AspNetCore.XmlSiteMaps.csproj", "{F5CBF477-83CD-472F-8304-47D4414639B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Casko.XmlSiteMaps.App", "Casko.XmlSiteMaps.App\Casko.XmlSiteMaps.App.csproj", "{0604BBCA-B805-41AF-B70F-D03AD607874E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,9 +12,5 @@ Global
 		{F5CBF477-83CD-472F-8304-47D4414639B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5CBF477-83CD-472F-8304-47D4414639B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5CBF477-83CD-472F-8304-47D4414639B3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0604BBCA-B805-41AF-B70F-D03AD607874E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0604BBCA-B805-41AF-B70F-D03AD607874E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0604BBCA-B805-41AF-B70F-D03AD607874E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0604BBCA-B805-41AF-B70F-D03AD607874E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
