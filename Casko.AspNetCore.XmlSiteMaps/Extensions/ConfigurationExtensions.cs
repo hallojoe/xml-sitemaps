@@ -48,8 +48,19 @@ public static class ConfigurationExtensions
 
                 xmlSiteMapRouteService.RegisterRoute(route, xmlSiteMapService.FileName);
 
-                endPoints.MapGet(route, (HttpContext httpContext) => new XmlResult<T>(xmlSiteMapService.GetXmlSiteMap(httpContext)));
-
+                endPoints.MapGet(route, (HttpContext httpContext) => 
+                {
+                    try
+                    {
+                        var xmlSiteMapResult = xmlSiteMapService.GetXmlSiteMap(httpContext);
+                        
+                        return new XmlResult<T>(xmlSiteMapResult);
+                    }
+                    catch (Exception exception)
+                    {
+                        return Results.NotFound(exception.Message);
+                    }
+                });
             }
 
             var xmlSiteMapCollectionServices =
@@ -57,15 +68,27 @@ public static class ConfigurationExtensions
 
             foreach (var xmlSiteMapCollectionService in xmlSiteMapCollectionServices)
             {
-                foreach (var cultureKey in xmlSiteMapCollectionService.Routes.Keys)
+                foreach (var collectionKey in xmlSiteMapCollectionService.Routes.Keys)
                 {
-                    var fileNameForCulture = xmlSiteMapCollectionService.Routes[cultureKey];
+                    var fileNameForCollection = xmlSiteMapCollectionService.Routes[collectionKey];
 
-                    var route = CreateEndPointRoute(fileNameForCulture);
+                    var route = CreateEndPointRoute(fileNameForCollection);
 
-                    xmlSiteMapRouteService.RegisterRoute(route, fileNameForCulture);
+                    xmlSiteMapRouteService.RegisterRoute(route, fileNameForCollection);
 
-                    endPoints.MapGet(route, (HttpContext httpContext) => new XmlResult<T>(xmlSiteMapCollectionService.GetXmlSiteMap(cultureKey, httpContext)));
+                    endPoints.MapGet(route, (HttpContext httpContext) =>
+                    {
+                        try
+                        {
+                            var xmlSiteMapResult = xmlSiteMapCollectionService.GetXmlSiteMap(collectionKey, httpContext);
+
+                            return new XmlResult<T>(xmlSiteMapResult);
+                        }
+                        catch (Exception exception)
+                        {
+                            return Results.NotFound(exception.Message);
+                        }
+                    });
                 }                
             }
         });
@@ -131,14 +154,14 @@ public static class ConfigurationExtensions
         services.AddXmlSiteMapServiceTypes(typeof(IXmlSiteMap<>));
 
         services.AddXmlSiteMapServiceTypes(typeof(IXmlSiteMapCollection<>));
-
+        
         return services;
     }
 
     public static IApplicationBuilder UseXmlSiteMaps(this IApplicationBuilder applicationBuilder, bool useRewrites = false)
     {
         ArgumentNullException.ThrowIfNull(applicationBuilder);
-
+        
         var routeService = applicationBuilder.ApplicationServices.GetRequiredService<IXmlSiteMapRouteService>();
 
         applicationBuilder.CreateEndPoints<XmlSiteMap>(routeService);
